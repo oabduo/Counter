@@ -3,137 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Counter App</title>
+    <title>Victim Counter</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 60px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
         
-        h1 {
-            color: #333;
-            margin: 0 0 1.5rem 0;
-        }
-        
-        .counter-display {
-            font-size: 3rem;
+        .victim-text {
+            font-size: 4rem;
             font-weight: bold;
-            color: #667eea;
-            margin: 1rem 0;
+            color: #ffffff;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
         }
         
-        button {
-            padding: 0.75rem 1.5rem;
-            margin: 0.5rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+        .counter-number {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
         }
         
-        .increment {
-            background-color: #667eea;
-            color: white;
-        }
-        
-        .increment:hover {
-            background-color: #5568d3;
-        }
-        
-        .decrement {
-            background-color: #764ba2;
-            color: white;
-        }
-        
-        .decrement:hover {
-            background-color: #6a3f96;
-        }
-        
-        .reset {
-            background-color: #ccc;
-            color: #333;
-        }
-        
-        .reset:hover {
-            background-color: #aaa;
+        .instruction {
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-top: 30px;
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Counter</h1>
-        <div class="counter-display" id="counter">0</div>
-        <div>
-            <button class="increment" onclick="increment()">Increment</button>
-            <button class="decrement" onclick="decrement()">Decrement</button>
-            <button class="reset" onclick="reset()">Reset</button>
-        </div>
+        <div class="victim-text">You are victim</div>
+        <div class="counter-number" id="counter">1</div>
+        <div class="instruction">Refresh to increment</div>
     </div>
 
     <script>
-        let count = 0;
-
-        // Load counter from localStorage on page load
-        function loadCounter() {
-            const saved = localStorage.getItem('counter');
-            if (saved !== null) {
-                count = parseInt(saved);
+        // Initialize counter on page load
+        function initializeCounter() {
+            // Get current counter value from localStorage
+            let count = localStorage.getItem('victimCounter');
+            
+            if (count === null) {
+                count = 1;
+            } else {
+                count = parseInt(count) + 1;
             }
-            updateDisplay();
-        }
-
-        // Increment counter on page click or refresh
-        function pageInteraction() {
-            count++;
-            saveCounter();
-            updateDisplay();
-        }
-
-        function increment() {
-            count++;
-            saveCounter();
-            updateDisplay();
-        }
-
-        function decrement() {
-            count--;
-            saveCounter();
-            updateDisplay();
-        }
-
-        function reset() {
-            count = 0;
-            saveCounter();
-            updateDisplay();
-        }
-
-        function updateDisplay() {
+            
+            // Store updated counter
+            localStorage.setItem('victimCounter', count);
+            
+            // Display counter
             document.getElementById('counter').textContent = count;
         }
-
-        function saveCounter() {
-            localStorage.setItem('counter', count);
-        }
-
-        // Load counter on page load
-        window.addEventListener('load', loadCounter);
-
-        // Increment counter on any click on the page
-        document.addEventListener('click', pageInteraction);
+        
+        // Run on page load
+        window.addEventListener('load', initializeCounter);
     </script>
 </body>
 </html>
