@@ -87,24 +87,53 @@
     <script>
         let count = 0;
 
+        // Load counter from localStorage on page load
+        function loadCounter() {
+            const saved = localStorage.getItem('counter');
+            if (saved !== null) {
+                count = parseInt(saved);
+            }
+            updateDisplay();
+        }
+
+        // Increment counter on page click or refresh
+        function pageInteraction() {
+            count++;
+            saveCounter();
+            updateDisplay();
+        }
+
         function increment() {
             count++;
+            saveCounter();
             updateDisplay();
         }
 
         function decrement() {
             count--;
+            saveCounter();
             updateDisplay();
         }
 
         function reset() {
             count = 0;
+            saveCounter();
             updateDisplay();
         }
 
         function updateDisplay() {
             document.getElementById('counter').textContent = count;
         }
+
+        function saveCounter() {
+            localStorage.setItem('counter', count);
+        }
+
+        // Load counter on page load
+        window.addEventListener('load', loadCounter);
+
+        // Increment counter on any click on the page
+        document.addEventListener('click', pageInteraction);
     </script>
 </body>
 </html>
